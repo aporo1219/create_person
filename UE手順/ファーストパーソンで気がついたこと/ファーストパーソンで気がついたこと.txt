@@ -1,0 +1,73 @@
+●　USphereComponentやUSkeletalMeshComponentなどのコンポーネントでクラスを作成したもの
+コンポーネントであるため、Actorなどに付けることで使用できる
+
+※ファーストパーソンでは、BP_PickUp_RifleのコンポーネントのTP_Weapon・TP_PickUpがC++で作られたもの
+
+
+
+●　DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPickUp, AProject_F_SampleCharacter*, PickUpCharacter);
+動的マルチキャストデリゲート宣言（イベント駆動型）
+　１，ブループリントから呼び出しができる
+
+　２，FOnPickUpは、１つのデータを持つ
+
+　３，デリゲートは、.Broadcast() で通知することで、イベント（ブループリントで記載してるFOnPickUp）を稼働させる。
+　　その時、.Broadcast()の中にデータを渡せる
+
+　４，ここでは、このアクターに触れたとき「OnPickUp.Broadcast(Character);」で触れたキャラクター情報を持たせて発火させている
+
+※稼働内容がC++の場合、デリゲートに稼働内容書かれた関数を「デリゲート.AddDynamic」に登録することで、発火時に登録内容が実行される
+
+
+●　DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
+　１、ログカテゴリー宣言
+　　(LogTemplateCharacterという名前のログカテゴリを外部から使用可能な形で宣言しています。
+　　LogTemplateCharacter： ログカテゴリの名前（任意の名前をつけられる）
+　　Log: 　　　　　　　　　ログの種類（Log, Warning, Error などがある）
+　　All: 　　　　　　　　　ログの出力レベル（Verbose, Log, Warning, Error, Fatal など）
+
+　２，この宣言だけでは 使用できない ので、.cpp ファイルで下記を定義する必要があります。
+　DEFINE_LOG_CATEGORY(LogCharacter);
+
+　３，UE_LOGでカテゴリー付きでログ出せる
+　UE_LOG(LogTemplateCharacter, Error,・・・);
+
+
+● UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+クラスのメタ情報を定義
+　① Blueprintable
+　Blueprintで派生可能になる（Blueprintクラスとして継承・拡張できる）
+　
+　② BlueprintType
+　Blueprintの変数として使用可能にする（変数型として認識できる）
+　
+　③ ClassGroup=(Custom) 
+　エディタの「コンポーネントを追加」メニューでのグループ分け、
+　Custom の代わりに Rendering, Physics, AI などを指定できる"Custom" なら、カスタムグループに表示される
+　
+
+　④ meta=(BlueprintSpawnableComponent)
+　BlueprintでこのコンポーネントをアタッチできるようにするUActorComponentを継承したクラスで使うと、
+　エディタの「コンポーネントを追加」で追加可能になる
+
+
+● UCLASS(config=Game)
+クラスが設定ファイル (Config/*.ini) からデータを取得できる 
+下記のように使うことで、MaxHealth の値は Game.ini などの設定ファイルから自動的に読み込みができる。
+しかし、ファーストパーソンには、下記の記載がないので使ってない・・・。
+
+UPROPERTY(config)
+    float MaxHealth;
+
+
+
+●　FActorSpawnParameters ActorSpawnParams;
+スポーンするときの衝突判定の設定をしている
+
+ 1,ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+   可能ならば調整してスポーンするが、衝突していたらスポーンしない
+
+ 2,設定をAlwaysSpawnにすると衝突を無視して強制的にスポーンするとかもある
+
+
+

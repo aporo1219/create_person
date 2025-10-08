@@ -1,0 +1,29 @@
+1,ウィジェット作るために
+まずはパネルからキャンパスパネル設置しなければいけない
+
+
+2,ウィジェット呼び出し方法
+#include "UObject/UObjectGlobals.h"
+
+ UClass* WidgetClass = StaticLoadClass(UUserWidget::StaticClass(), nullptr,TEXT("/Game/NewWidgetBlueprint.NewWidgetBlueprint_C"));
+  
+ m_pTitleUserWidget =CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
+ if (m_pTitleUserWidget)
+ {
+     m_pTitleUserWidget->AddToViewport();
+ }
+
+3,プレイヤーコントローラーの BeginPlay()が反応しない場合
+BeginPlay()の代わりに、インプットのセットアップ関数で行えばなんとかなった
+virtual void SetupInputComponent() override;
+
+
+4,キャラクタークラス（C++）のブループリントの作成
+キャラクター（C++）のブループリントにするには、ブラウザコンテンツのキャラクター（C++）を
+マウスの右クリックで、ブループリントを作るやつがある
+※C++から直接アクターを作らず、C++からブループリントを作り、それをアクターにします。これが正しい方法です
+
+
+5,めんどいので、キャラクタークラスを動かす方法は「プレイヤー入力と Pawn クラス」を参考にした
+ゲームモードベースクラスやプレイヤーコントローラークラスを作るのが面倒なので
+「プレイヤー入力と Pawn クラス」参考して、動かしたらよい

@@ -1,0 +1,41 @@
+パッケージ
+プロジェクト設定
+　・パッケージ化
+　　ビルドコンフィギュレーション「Shipping」
+　・マップ＆モード
+　　ゲームのデフォルトマップをタイトルマップに
+　・対応プラットフォーム
+　　Windowsだけにする
+　・プラットフォーム
+　　ターゲットのRHIをDirectX11＆12
+　　コンパイルのバージョン　ビジュアルスタジオ
+
+
+プラグインは、ｖｒで検索して
+ＶＲをプラグインから外す
+
+
+ブログラム上で解像度変更
+// 解像度を設定
+#include "GameFramework/GameUserSettings.h"
+
+UGameUserSettings* GameUserSettings = GEngine->GetGameUserSettings();
+if (GameUserSettings)
+{
+	GameUserSettings->SetScreenResolution(FIntPoint(800, 600));  // 解像度変更
+	GameUserSettings->SetFullscreenMode(EWindowMode::Windowed); // ウィンドウモード
+	GameUserSettings->ApplySettings(false);  // 設定を適用
+}
+
+//パッケージで、アセットをC++登録するとたまに失敗するので、ブループリントから設定した方がい良い
+//物理マテリアル設定する際は、「if(!HasAnyFlags(RF_ClassDefaultObject))」で囲む必要がある
+if (PMatAsset.Succeeded())
+{
+　if(!HasAnyFlags(RF_ClassDefaultObject))
+	mCapsule->SetPhysMaterialOverride(PMatAsset.Object);
+		
+}
+
+
+//パッケージ化
+ファイル→プロジェクトをパッケージ化からプラットフォームを押す

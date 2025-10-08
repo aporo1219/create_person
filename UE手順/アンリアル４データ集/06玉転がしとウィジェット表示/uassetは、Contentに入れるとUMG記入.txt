@@ -1,0 +1,4 @@
+　　　　　　　　　　　　　　　　　　　　　　　　　　記入↓
+PrivateDependencyModuleNames.AddRange(new string[] { "UMG"  });
+コメント外す↓
+PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

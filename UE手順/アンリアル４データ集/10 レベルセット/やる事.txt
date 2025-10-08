@@ -1,0 +1,5 @@
+・プロジェクトのContent、Sourceを上書き
+・○○.uprojectのVisualStudioの更新のやつを起動させる
+・MyProject.Buildは、VisualStudio上で文字を書いて消して、コンパイルを動かす
+・UE上でコンパイルする
+・レベルをUntitled.umapで開く

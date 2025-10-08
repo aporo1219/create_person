@@ -1,0 +1,26 @@
+・UE5ではNiagaraがデフォルトのパーティクルシステムとして推奨されており、新機能もNiagara向けに追加された
+よって、「パーティクルコンポーネントとシステム」は「ナイアガラコンポーネントとシステム」になった
+
+・Build追加
+ "Niagara"を追加して、Generate Visual Studio project filesする
+
+
+・UNiagaraFunctionLibrary::SpawnSystemAttachedの引数に関して
+
+UNiagaraFunctionLibrary::SpawnSystemAttached(
+        NiagaraEffect,           // ナイアガラシステム
+        RootComponent,  　　　　// アタッチ先
+        NAME_None,          　　// アタッチポイント名
+        FVector::ZeroVector,    // 相対位置
+        FRotator::ZeroRotator,  // 回転
+        EAttachLocation::SnapToTarget, // 位置適用の方法
+        true,                    // 自動削除
+        true                     // 自動アクティブ
+    );
+
+
+・SetNiagaraVariableFloat
+公開されたユーザーに登録した変数名アクセスできる.
+エミッタの値に「公開されたユーザーに登録した変数」を設定することでプログラム側でエミッタの値を変更できる
+
+SetNiagaraVariableFloat(FString("変数名"), float値);

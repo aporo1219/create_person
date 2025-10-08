@@ -1,0 +1,43 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "ActorFloating.generated.h"
+
+UCLASS()
+class PROJECTCPP_API AActorFloating : public AActor
+{
+	GENERATED_BODY()
+	
+public:	
+	// Sets default values for this actor's properties
+	AActorFloating();
+
+	//これ！ 
+	UPROPERTY(Category = "C_CODE", VisibleAnywhere)
+	TObjectPtr<UStaticMeshComponent> VisualMesh;
+	//注意　サイトではメッシュを直接登録していますが、メッシュ等の情報はブループリントで登録するようにしてください
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+};
+
+    FRotator NewRotation = GetActorRotation();
+   
+    float RunningTime = GetGameTimeSinceCreation();
+    float DeltaHeight = (FMath::Sin(RunningTime + DeltaTime) - FMath::Sin(RunningTime));
+    
+    NewLocation.Z += DeltaHeight * 20.0f;  
+    float DeltaRotation = DeltaTime * 20.0f;
+    NewRotation.Yaw += DeltaRotation;
+    SetActorLocationAndRotation(NewLocation, NewRotation);
+
+
+}
+
